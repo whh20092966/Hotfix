@@ -48,8 +48,6 @@ public class AndFix {
 	//这两个dest 如果何来的？
 	private static native void replaceMethod(Method dest, Method src);
 
-	private static native void setFieldFlag(Field field);
-
 	public static native void initArtMethodSize(Method fun1, Method fun2);
 
 	/**
@@ -101,7 +99,6 @@ public class AndFix {
 		Field[] srcFields = clazz.getDeclaredFields();
 		for (Field srcField : srcFields) {
 			Log.d(TAG, "modify " + clazz.getName() + "." + srcField.getName() + " flag:");
-			//setFieldFlag(srcField);
 			srcField.setAccessible(true);
 		}
 	}

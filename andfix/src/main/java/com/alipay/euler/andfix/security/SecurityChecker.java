@@ -75,7 +75,6 @@ public class SecurityChecker {
 	}
 
 	/**
-	 * @param path
 	 *            Dex file
 	 * @return true if verify fingerprint success
 	 */
@@ -89,7 +88,6 @@ public class SecurityChecker {
 	}
 
 	/**
-	 * @param path
 	 *            Dex file
 	 */
 	public void saveOptSig(File file) {

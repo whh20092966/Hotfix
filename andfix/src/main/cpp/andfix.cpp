@@ -7,15 +7,6 @@
 
 #define JNIREG_CLASS "com/alipay/euler/andfix/AndFix"
 
-//dalvik
-extern jboolean dalvik_setup(JNIEnv* env, int apilevel);
-extern void dalvik_replaceMethod(JNIEnv* env, jobject src, jobject dest);
-extern void dalvik_setFieldFlag(JNIEnv* env, jobject field);
-//art
-extern jboolean art_setup(JNIEnv* env, int apilevel);
-extern void art_replaceMethod(JNIEnv* env, jobject src, jobject dest);
-extern void art_setFieldFlag(JNIEnv* env, jobject field);
-
 static bool isArt;
 
 static int artMethodSize = 0;
@@ -25,11 +16,7 @@ static jboolean setup(JNIEnv* env, jclass clazz, jboolean isart,
     isArt = isart;
     LOGD("vm is: %s , apilevel is: %i", (isArt ? "art" : "dalvik"),
          (int )apilevel);
-    if (isArt) {
-        return art_setup(env, (int) apilevel);
-    } else {
-        return dalvik_setup(env, (int) apilevel);
-    }
+    return JNI_TRUE;
 }
 
 static void replaceMethod(JNIEnv* env, jclass clazz, jobject src,
@@ -51,14 +38,6 @@ static void replaceMethod(JNIEnv* env, jclass clazz, jobject src,
     }
 }
 
-static void setFieldFlag(JNIEnv* env, jclass clazz, jobject field) {
-    if (isArt) {
-        art_setFieldFlag(env, field);
-    } else {
-        dalvik_setFieldFlag(env, field);
-    }
-}
-
 static void initArtMethodSize(JNIEnv* env,  jclass clazz, jobject fun1, jobject fun2){
     char * meth1 = (char *) env->FromReflectedMethod(fun1);
     char * meth2 = (char *) env->FromReflectedMethod(fun2);
@@ -74,7 +53,6 @@ static JNINativeMethod gMethods[] = {
 /* name, signature, funcPtr */
         { "setup", "(ZI)Z", (void*) setup },
         { "replaceMethod","(Ljava/lang/reflect/Method;Ljava/lang/reflect/Method;)V",(void*) replaceMethod },
-        { "setFieldFlag","(Ljava/lang/reflect/Field;)V", (void*) setFieldFlag },
         {"initArtMethodSize", "(Ljava/lang/reflect/Method;Ljava/lang/reflect/Method;)V", (void*) initArtMethodSize},
         };
 
