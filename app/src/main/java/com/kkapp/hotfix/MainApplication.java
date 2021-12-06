@@ -61,5 +61,6 @@ public class MainApplication extends Application {
 			Log.e(TAG, "", e);
 		}
 
+		Log.d(TAG, "ApplicationClassLoader: " + getClassLoader());
 	}
 }
