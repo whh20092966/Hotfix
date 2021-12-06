@@ -39,9 +39,14 @@ public class MainApplication extends Application {
 	 */
 	private PatchManager mPatchManager;
 
+	public static MainApplication application;
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
+
+		application = this;
+
 		// initialize
 		mPatchManager = new PatchManager(this);
 		mPatchManager.init("1.0");
